@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}About - AI Image Analyzer{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary mb-3">
+                    <i class="fas fa-info-circle me-3"></i>About AI Image Analyzer
+                </h1>
+                <p class="lead text-muted">Transforming waste into opportunity through AI-powered creativity</p>
+            </div>
+
+            <!-- Mission Section -->
+            <div class="card shadow-lg mb-5">
+                <div class="card-body p-5">
+                    <h3 class="text-primary mb-4">
+                        <i class="fas fa-bullseye me-2"></i>Our Mission
+                    </h3>
+                    <p class="fs-5">
+                        We believe that every item has potential beyond its original purpose. Our AI Image Analyzer 
+                        helps you discover creative ways to reuse, repurpose, and monetize items that might otherwise 
+                        end up in landfills. By combining artificial intelligence with sustainability principles, 
+                        we're building a more circular economy, one item at a time.
+                    </p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="card shadow-lg mb-5">
+                <div class="card-body p-5">
+                    <h3 class="text-primary mb-4">
+                        <i class="fas fa-cogs me-2"></i>How It Works
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                                    <i class="fas fa-camera fa-2x"></i>
+                                </div>
+                                <h5>1. Capture</h5>
+                                <p class="text-muted">Take a photo or upload an image of your item using our camera feature or file upload.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                                    <i class="fas fa-brain fa-2x"></i>
+                                </div>
+                                <h5>2. Analyze</h5>
+                                <p class="text-muted">Our AI analyzes the image to identify the item, material, condition, and potential value.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <div class="step-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                                    <i class="fas fa-lightbulb fa-2x"></i>
+                                </div>
+                                <h5>3. Discover</h5>
+                                <p class="text-muted">Get personalized recommendations for DIY projects, selling opportunities, and sustainability benefits.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="card shadow-lg mb-5">
+                <div class="card-body p-5">
+                    <h3 class="text-primary mb-4">
+                        <i class="fas fa-star me-2"></i>Key Features
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="feature-item">
+                                <i class="fas fa-camera-retro text-primary me-3"></i>
+                                <div>
+                                    <h6>Camera Integration</h6>
+                                    <p class="text-muted mb-0">Capture photos directly through your device's camera for instant analysis.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-item">
+                                <i class="fas fa-magic text-primary me-3"></i>
+                                <div>
+                                    <h6>Image Preprocessing</h6>
+                                    <p class="text-muted mb-0">Advanced image enhancement for better AI accuracy and analysis quality.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-item">
+                                <i class="fas fa-robot text-primary me-3"></i>
+                                <div>
+                                    <h6>AI-Powered Analysis</h6>
+                                    <p class="text-muted mb-0">Uses OpenAI's Vision API for accurate item identification and analysis.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-item">
+                                <i class="fas fa-graduation-cap text-primary me-3"></i>
+                                <div>
+                                    <h6>Comprehensive Tutorials</h6>
+                                    <p class="text-muted mb-0">Step-by-step guides for DIY projects and item transformation techniques.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-item">
+                                <i class="fas fa-dollar-sign text-primary me-3"></i>
+                                <div>
+                                    <h6>Monetization Tips</h6>
+                                    <p class="text-muted mb-0">Discover platforms and methods to sell or rent your items for profit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-item">
+                                <i class="fas fa-leaf text-primary me-3"></i>
+                                <div>
+                                    <h6>Sustainability Focus</h6>
+                                    <p class="text-muted mb-0">Learn about environmental benefits and sustainable practices for item reuse.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technology Stack -->
+            <div class="card shadow-lg mb-5">
+                <div class="card-body p-5">
+                    <h3 class="text-primary mb-4">
+                        <i class="fas fa-code me-2"></i>Technology Stack
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="tech-item text-center">
+                                <i class="fab fa-python fa-3x text-primary mb-3"></i>
+                                <h6>Python Flask</h6>
+                                <p class="text-muted small">Backend web framework</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="tech-item text-center">
+                                <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                                <h6>OpenAI Vision</h6>
+                                <p class="text-muted small">AI image analysis</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="tech-item text-center">
+                                <i class="fas fa-image fa-3x text-primary mb-3"></i>
+                                <h6>OpenCV</h6>
+                                <p class="text-muted small">Image processing</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="tech-item text-center">
+                                <i class="fab fa-bootstrap fa-3x text-primary mb-3"></i>
+                                <h6>Bootstrap 5</h6>
+                                <p class="text-muted small">Frontend framework</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact -->
+            <div class="card shadow-lg mb-5">
+                <div class="card-body p-5">
+                    <h3 class="text-primary mb-4">
+                        <i class="fas fa-globe me-2"></i>Environmental Impact
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="impact-stat text-center">
+                                <div class="stat-number text-success fw-bold fs-1">75%</div>
+                                <div class="stat-label">Reduction in waste</div>
+                                <p class="text-muted small">Items reused instead of discarded</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="impact-stat text-center">
+                                <div class="stat-number text-info fw-bold fs-1">50%</div>
+                                <div class="stat-label">Less energy consumption</div>
+                                <p class="text-muted small">Compared to manufacturing new items</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="impact-stat text-center">
+                                <div class="stat-number text-warning fw-bold fs-1">90%</div>
+                                <div class="stat-label">User satisfaction</div>
+                                <p class="text-muted small">Find creative solutions for their items</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="card shadow-lg bg-primary text-white">
+                <div class="card-body p-5 text-center">
+                    <h3 class="mb-4">
+                        <i class="fas fa-rocket me-2"></i>Ready to Transform Your Items?
+                    </h3>
+                    <p class="fs-5 mb-4">
+                        Join thousands of users who are discovering creative ways to reuse their items 
+                        and contribute to a more sustainable future.
+                    </p>
+                    <a href="{{ url_for('index') }}" class="btn btn-light btn-lg me-3">
+                        <i class="fas fa-play me-2"></i>Get Started
+                    </a>
+                    <a href="{{ url_for('tutorials') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-graduation-cap me-2"></i>View Tutorials
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Add animation effects
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate stats on scroll
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+
+    // Observe all stat numbers
+    document.querySelectorAll('.stat-number').forEach(stat => {
+        observer.observe(stat);
+    });
+});
+</script>
+{% endblock %}
