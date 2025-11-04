@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Tutorials & DIY Projects - AI Image Analyzer{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold text-primary mb-3">
+                    <i class="fas fa-graduation-cap me-3"></i>Tutorials & DIY Projects
+                </h1>
+                <p class="lead text-muted">Learn how to transform your items with step-by-step guides</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Navigation -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Browse by Category</h5>
+                    <div class="row g-2">
+                        {% for category, data in knowledge.categories.items() %}
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <button class="btn btn-outline-primary w-100 category-btn" data-category="{{ category }}">
+                                <i class="fas fa-{{ 'laptop' if category == 'electronics' else 'chair' if category == 'furniture' else 'tshirt' if category == 'clothing' else 'book' if category == 'books' else 'tools' if category == 'tools' else 'utensils' if category == 'kitchen' else 'dumbbell' if category == 'sports' else 'tag' }} me-2"></i>
+                                {{ category.title() }}
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorials Content -->
+    <div class="row">
+        {% for category, data in knowledge.categories.items() %}
+        <div class="col-lg-4 col-md-6 mb-4 category-content" data-category="{{ category }}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-{{ 'laptop' if category == 'electronics' else 'chair' if category == 'furniture' else 'tshirt' if category == 'clothing' else 'book' if category == 'books' else 'tools' if category == 'tools' else 'utensils' if category == 'kitchen' else 'dumbbell' if category == 'sports' else 'tag' }} me-2"></i>
+                        {{ category.title() }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- DIY Projects -->
+                    <div class="mb-4">
+                        <h6 class="text-warning">
+                            <i class="fas fa-lightbulb me-2"></i>DIY Projects
+                        </h6>
+                        <ul class="list-unstyled">
+                            {% for project in data.diy_projects[:3] %}
+                            <li class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>{{ project }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Tutorials -->
+                    <div class="mb-4">
+                        <h6 class="text-primary">
+                            <i class="fas fa-graduation-cap me-2"></i>Tutorials
+                        </h6>
+                        <ul class="list-unstyled">
+                            {% for tutorial in data.tutorials[:3] %}
+                            <li class="mb-2">
+                                <i class="fas fa-play-circle text-primary me-2"></i>{{ tutorial }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Monetization -->
+                    <div class="mb-4">
+                        <h6 class="text-success">
+                            <i class="fas fa-dollar-sign me-2"></i>Monetization
+                        </h6>
+                        <ul class="list-unstyled">
+                            {% for monetization in data.monetization[:3] %}
+                            <li class="mb-2">
+                                <i class="fas fa-check-circle text-success me-2"></i>{{ monetization }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary w-100" onclick="showCategoryDetails('{{ category }}')">
+                        <i class="fas fa-eye me-2"></i>View All {{ category.title() }} Ideas
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- General Tips -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>General Tips & Guidelines
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h6 class="text-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>DIY Safety
+                            </h6>
+                            <ul class="list-unstyled">
+                                {% for tip in knowledge.general_tips.diy_safety %}
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>{{ tip }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-success">
+                                <i class="fas fa-dollar-sign me-2"></i>Selling Tips
+                            </h6>
+                            <ul class="list-unstyled">
+                                {% for tip in knowledge.general_tips.selling_tips %}
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>{{ tip }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-info">
+                                <i class="fas fa-leaf me-2"></i>Sustainability Benefits
+                            </h6>
+                            <ul class="list-unstyled">
+                                {% for benefit in knowledge.general_tips.sustainability_benefits %}
+                                <li class="mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>{{ benefit }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category Details Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryModalTitle">Category Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="categoryModalBody">
+                <!-- Content will be populated here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const knowledgeData = {{ knowledge | tojson }};
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Category filter buttons
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const categoryContents = document.querySelectorAll('.category-content');
+
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const category = this.dataset.category;
+            
+            // Update button states
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show/hide content
+            categoryContents.forEach(content => {
+                if (content.dataset.category === category) {
+                    content.style.display = 'block';
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Show all categories by default
+    categoryContents.forEach(content => {
+        content.style.display = 'block';
+    });
+});
+
+function showCategoryDetails(category) {
+    const data = knowledgeData.categories[category];
+    
+    document.getElementById('categoryModalTitle').textContent = `${category.charAt(0).toUpperCase() + category.slice(1)} - Complete Guide`;
+    
+    const modalBody = document.getElementById('categoryModalBody');
+    modalBody.innerHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="text-warning">
+                    <i class="fas fa-lightbulb me-2"></i>DIY Projects
+                </h6>
+                <ul class="list-unstyled">
+                    ${data.diy_projects.map(project => `<li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>${project}</li>`).join('')}
+                </ul>
+                
+                <h6 class="text-primary mt-4">
+                    <i class="fas fa-graduation-cap me-2"></i>Tutorials
+                </h6>
+                <ul class="list-unstyled">
+                    ${data.tutorials.map(tutorial => `<li class="mb-2"><i class="fas fa-play-circle text-primary me-2"></i>${tutorial}</li>`).join('')}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h6 class="text-success">
+                    <i class="fas fa-dollar-sign me-2"></i>Monetization
+                </h6>
+                <ul class="list-unstyled">
+                    ${data.monetization.map(monetization => `<li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>${monetization}</li>`).join('')}
+                </ul>
+                
+                <h6 class="text-info mt-4">
+                    <i class="fas fa-leaf me-2"></i>Sustainability
+                </h6>
+                <ul class="list-unstyled">
+                    ${data.sustainability.map(sustainability => `<li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>${sustainability}</li>`).join('')}
+                </ul>
+                
+                <h6 class="text-secondary mt-4">
+                    <i class="fas fa-store me-2"></i>Marketplaces
+                </h6>
+                <ul class="list-unstyled">
+                    ${data.marketplaces.map(marketplace => `<li class="mb-2"><i class="fas fa-external-link-alt text-secondary me-2"></i>${marketplace}</li>`).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+    
+    const modal = new bootstrap.Modal(document.getElementById('categoryModal'));
+    modal.show();
+}
+</script>
+{% endblock %}
