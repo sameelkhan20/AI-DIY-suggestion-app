@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}Capture Photo - AI Image Analyzer{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-camera me-2"></i>Capture Your Item
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Camera Section -->
+                    <div class="camera-section text-center mb-4">
+                        <div class="camera-container">
+                            <video id="video" class="camera-video" autoplay muted></video>
+                            <canvas id="canvas" class="d-none"></canvas>
+                        </div>
+                        
+                        <div class="camera-controls mt-4">
+                            <button id="startCamera" class="btn btn-primary me-2">
+                                <i class="fas fa-video me-2"></i>Start Camera
+                            </button>
+                            <button id="captureBtn" class="btn btn-success me-2" disabled>
+                                <i class="fas fa-camera me-2"></i>Capture Photo
+                            </button>
+                            <button id="stopCamera" class="btn btn-danger" disabled>
+                                <i class="fas fa-stop me-2"></i>Stop Camera
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Captured Image Preview -->
+                    <div id="capturedPreview" class="captured-preview d-none">
+                        <h5 class="mb-3">Captured Image:</h5>
+                        <div class="text-center">
+                            <img id="capturedImage" class="img-fluid rounded shadow" alt="Captured Image">
+                        </div>
+                        <div class="text-center mt-3">
+                            <button id="analyzeBtn" class="btn btn-primary btn-lg me-2">
+                                <i class="fas fa-search me-2"></i>Analyze This Image
+                            </button>
+                            <button id="retakeBtn" class="btn btn-outline-secondary">
+                                <i class="fas fa-redo me-2"></i>Retake
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Analysis Results -->
+                    <div id="analysisResults" class="analysis-results d-none">
+                        <!-- Results will be populated here -->
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div id="loadingSpinner" class="text-center d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Analyzing...</span>
+                        </div>
+                        <p class="mt-2">Analyzing your image...</p>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div id="errorMessage" class="alert alert-danger d-none" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <span id="errorText"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-lightbulb text-warning me-2"></i>Capture Tips
+                    </h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Ensure good lighting</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Keep the item centered in frame</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Capture from multiple angles if needed</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Make sure the item is clearly visible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const startCameraBtn = document.getElementById('startCamera');
+    const captureBtn = document.getElementById('captureBtn');
+    const stopCameraBtn = document.getElementById('stopCamera');
+    const capturedPreview = document.getElementById('capturedPreview');
+    const capturedImage = document.getElementById('capturedImage');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const retakeBtn = document.getElementById('retakeBtn');
+    const analysisResults = document.getElementById('analysisResults');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const errorMessage = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
+
+    let stream = null;
+
+    // Start camera
+    startCameraBtn.addEventListener('click', async function() {
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 },
+                    facingMode: 'environment' // Use back camera on mobile
+                } 
+            });
+            
+            video.srcObject = stream;
+            startCameraBtn.disabled = true;
+            captureBtn.disabled = false;
+            stopCameraBtn.disabled = false;
+            
+            hideError();
+        } catch (err) {
+            showError('Unable to access camera. Please check permissions.');
+            console.error('Camera error:', err);
+        }
+    });
+
+    // Stop camera
+    stopCameraBtn.addEventListener('click', function() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            stream = null;
+        }
+        
+        video.srcObject = null;
+        startCameraBtn.disabled = false;
+        captureBtn.disabled = true;
+        stopCameraBtn.disabled = true;
+        capturedPreview.classList.add('d-none');
+        analysisResults.classList.add('d-none');
+    });
+
+    // Capture photo
+    captureBtn.addEventListener('click', function() {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0);
+        
+        const imageData = canvas.toDataURL('image/jpeg', 0.8);
+        capturedImage.src = imageData;
+        
+        capturedPreview.classList.remove('d-none');
+        captureBtn.disabled = true;
+    });
+
+    // Retake photo
+    retakeBtn.addEventListener('click', function() {
+        capturedPreview.classList.add('d-none');
+        analysisResults.classList.add('d-none');
+        captureBtn.disabled = false;
+    });
+
+    // Analyze captured image
+    analyzeBtn.addEventListener('click', function() {
+        const imageData = canvas.toDataURL('image/jpeg', 0.8);
+        
+        loadingSpinner.classList.remove('d-none');
+        analysisResults.classList.add('d-none');
+        hideError();
+        
+        // Send image to server
+        fetch('/capture_image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                image: imageData
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            loadingSpinner.classList.add('d-none');
+            
+            if (data.error) {
+                showError(data.error);
+            } else {
+                displayResults(data);
+            }
+        })
+        .catch(error => {
+            loadingSpinner.classList.add('d-none');
+            showError('Failed to analyze image. Please try again.');
+            console.error('Analysis error:', error);
+        });
+    });
+
+    function displayResults(data) {
+        analysisResults.innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>AI Analysis:</h5>
+                    <div class="analysis-content">
+                        <p class="text-muted">${data.analysis}</p>
+                        <div class="analysis-meta">
+                            <span class="badge bg-primary">Category: ${data.category}</span>
+                            <span class="badge bg-success">Confidence: ${data.confidence}%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h5>Recommendations:</h5>
+                    <div class="recommendations">
+                        <div class="recommendation-section mb-3">
+                            <h6 class="text-warning"><i class="fas fa-lightbulb me-2"></i>DIY Ideas</h6>
+                            <ul class="list-unstyled">
+                                ${data.recommendations.diy_ideas.map(idea => `<li><i class="fas fa-check text-success me-2"></i>${idea}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="recommendation-section mb-3">
+                            <h6 class="text-success"><i class="fas fa-dollar-sign me-2"></i>Monetization</h6>
+                            <ul class="list-unstyled">
+                                ${data.recommendations.monetization.map(idea => `<li><i class="fas fa-check text-success me-2"></i>${idea}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="recommendation-section">
+                            <h6 class="text-info"><i class="fas fa-leaf me-2"></i>Sustainability</h6>
+                            <ul class="list-unstyled">
+                                ${data.recommendations.sustainability.map(idea => `<li><i class="fas fa-check text-success me-2"></i>${idea}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-home me-2"></i>Back to Home
+                </a>
+            </div>
+        `;
+        
+        analysisResults.classList.remove('d-none');
+    }
+
+    function showError(message) {
+        errorText.textContent = message;
+        errorMessage.classList.remove('d-none');
+    }
+
+    function hideError() {
+        errorMessage.classList.add('d-none');
+    }
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', function() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+    });
+});
+</script>
+{% endblock %}
